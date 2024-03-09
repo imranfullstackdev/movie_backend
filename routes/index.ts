@@ -12,13 +12,11 @@ import APIError from '../services/error.js';
 // Middlewares
 import logErrorService from '../services/log.js';
 
-const routes = new Router();
+const routes = Router();
 
 routes.use('/', UserRoutes);
 
-routes.all('*', (req, res, next) =>
-  next(new APIError('Not Found!', HTTPStatus.NOT_FOUND, true))
-);
+routes.all('*', (req, res, next) => next(new APIError('Not Found!', HTTPStatus.NOT_FOUND, true)));
 
 routes.use(logErrorService);
 

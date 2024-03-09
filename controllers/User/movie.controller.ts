@@ -7,18 +7,21 @@
 
 import output from '../../helpers/output/index.js';
 import DataService from '../../services/DataServices.js';
-import UserModel from '../../models/user.model.js';
+import UserModel, { UserDocument } from '../../models/user.model.ts';
 import movieModel from '../../models/movie.model.js';
+import { Role } from '../../model-constants.js';
+import { Request, Response } from 'express';
+import { IReqCustom, UserHeader } from '../../types/headers.js';
 
-export async function PostMovie(req, res) {
+export async function PostMovie(req: IReqCustom<UserHeader>, res: Response) {
   const Id = req.headers.payload.userId;
   try {
-    const userData = await DataService.findOne(UserModel, {
+    const userData = await DataService.findOne<UserDocument>(UserModel, {
       _id: Id
     });
 
     const data = req.body;
-    if (userData.role == 'Admin') {
+    if (userData && userData.role == Role.Admin) {
       const userData = await DataService.insertOne(movieModel, data);
       console.log(userData, 'userData');
       output.makeSuccessResponse(res, 7, 200, userData);
@@ -32,7 +35,7 @@ export async function PostMovie(req, res) {
 }
 
 // for get all movies
-export async function allMovies(req, res) {
+export async function allMovies(req: Request, res: Response) {
   try {
     const userData = await DataService.getData(movieModel);
     console.log(userData, 'userData');
@@ -45,8 +48,8 @@ export async function allMovies(req, res) {
 }
 
 // to delete a movie
-export async function DeleteMovie(req, res) {
-  const Id = req.headers.payload.userId;
+export async function DeleteMovie(req: IReqCustom<UserHeader>, res: Response) {
+  const Id = req.headers.payload && req.headers.payload.userId;
   const movieId = req.query.id;
   console.log(movieId, 'movieId');
 
@@ -56,7 +59,7 @@ export async function DeleteMovie(req, res) {
     });
 
     const data = req.body;
-    if (userData.role == 'Admin') {
+    if (userData && userData.role === Role.Admin) {
       const userData = await DataService.deleteOne(movieModel, { _id: movieId });
       output.makeSuccessResponse(res, 8, 200, userData);
     } else {
@@ -81,8 +84,7 @@ export async function updateMovie(req, res) {
     });
 
     const data = req.body;
-    console.log(userData.role, 'FOO');
-    if (userData.role == 'Admin') {
+    if (userData && userData.role === Role.Admin) {
       const userData = await DataService.updateData(movieModel, { _id: movieId }, data);
       output.makeSuccessResponse(res, 7, 200, userData);
     } else {
@@ -95,7 +97,7 @@ export async function updateMovie(req, res) {
 }
 
 // to search  movies
-export async function searchMovie(req, res) {
+export async function searchMovie(req: Request, res: Response) {
   const params = req.query.q;
   console.log(params);
   try {

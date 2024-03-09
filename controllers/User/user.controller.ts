@@ -7,11 +7,13 @@
 
 import output from '../../helpers/output/index.js';
 import DataService from '../../services/DataServices.js';
-import UserModel from '../../models/user.model.js';
-import { signAccessToken } from '../../middlewares/Authentication/auth.js';
+import UserModel, { UserDocument } from '../../models/user.model.ts';
+import { signAccessToken } from '../../middlewares/Authentication/auth.ts';
 import { compare, hash } from '../../helpers/bcrypt/index.js';
+import { Request, Response } from 'express';
+import { FilterQuery, Model } from 'mongoose';
 
-export async function signUp(req, res) {
+export async function signUp(req: Request, res: Response) {
   try {
     const data = req.body;
 
@@ -32,13 +34,13 @@ export async function signUp(req, res) {
   }
 }
 
-export async function login(req, res) {
+export async function login(req: Request, res: Response) {
   try {
     const data = req.body;
 
     data.email = data.email.toLowerCase();
 
-    const userData = await DataService.findOne(UserModel, {
+    const userData = await DataService.findOne<UserDocument>(UserModel, {
       email: data.email
     });
 
@@ -57,7 +59,7 @@ export async function login(req, res) {
   }
 }
 
-function makeSignUpResponse(userData) {
+function makeSignUpResponse(userData: UserDocument) {
   const accessToken = signAccessToken(userData);
   return {
     accessToken,
@@ -65,7 +67,7 @@ function makeSignUpResponse(userData) {
   };
 }
 
-function makeLoginResponse(userData) {
+function makeLoginResponse(userData: UserDocument) {
   const accessToken = signAccessToken(userData);
   return {
     accessToken,
