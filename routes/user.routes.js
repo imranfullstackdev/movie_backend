@@ -13,13 +13,11 @@ const routes = new Router();
 
 routes.post('/signup', Validation.signUp, UserController.signUp);
 routes.post('/login', Validation.login, UserController.login);
-routes.post('/movies',verifyRole, Validation.movieValidation, movieController.PostMovie);
+routes.post('/movies', verifyRole, Validation.movieValidation, movieController.PostMovie);
 routes.get('/movies', movieController.allMovies);
-routes.delete("/movies",verifyRole,movieController.DeleteMovie)
+routes.delete('/movies', verifyRole, movieController.DeleteMovie);
 // pending
 routes.get('/search', movieController.searchMovie);
-routes.put('/movies',verifyRole, Validation.movieUpdateValidation, movieController.updateMovie);
-
-
+routes.put('/movies', verifyRole, Validation.movieUpdateValidation, movieController.updateMovie);
 
 export default routes;
