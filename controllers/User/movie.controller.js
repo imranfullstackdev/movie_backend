@@ -57,7 +57,7 @@ export async function DeleteMovie(req, res) {
 
     const data = req.body;
     if (userData.role == 'Admin') {
-      const userData = await DataService.deleteOne(movieModel,{ _id: movieId });
+      const userData = await DataService.deleteOne(movieModel, { _id: movieId });
       output.makeSuccessResponse(res, 8, 200, userData);
     } else {
       output.makeErrorResponse(res, 6, 400);
@@ -81,8 +81,9 @@ export async function updateMovie(req, res) {
     });
 
     const data = req.body;
+    console.log(userData.role, 'FOO');
     if (userData.role == 'Admin') {
-      const userData = await DataService.updateData(movieModel, data, { _id: movieId });
+      const userData = await DataService.updateData(movieModel, { _id: movieId }, data);
       output.makeSuccessResponse(res, 7, 200, userData);
     } else {
       output.makeErrorResponse(res, 6, 400);
@@ -96,8 +97,11 @@ export async function updateMovie(req, res) {
 // to search  movies
 export async function searchMovie(req, res) {
   const params = req.query.q;
+  console.log(params);
   try {
-    const userData = await DataService.getData(movieModel, { params });
+    const userData = await DataService.getData(movieModel, {
+      $or: [{ genre: params }, { title: params }]
+    });
     console.log(userData, 'userData');
     if (userData.length > 0) {
       output.makeSuccessResponse(res, 9, 200, userData);
