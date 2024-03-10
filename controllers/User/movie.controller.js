@@ -20,7 +20,6 @@ export async function PostMovie(req, res) {
     const data = req.body;
     if (userData.role == 'Admin') {
       const userData = await DataService.insertOne(movieModel, data);
-      console.log(userData, 'userData');
       output.makeSuccessResponse(res, 7, 200, userData);
     } else {
       output.makeErrorResponse(res, 6, 400);
@@ -35,7 +34,6 @@ export async function PostMovie(req, res) {
 export async function allMovies(req, res) {
   try {
     const userData = await DataService.getData(movieModel);
-    console.log(userData, 'userData');
     if (userData.length > 0) {
       output.makeSuccessResponse(res, 9, 200, userData);
     }
@@ -48,7 +46,6 @@ export async function allMovies(req, res) {
 export async function DeleteMovie(req, res) {
   const Id = req.headers.payload.userId;
   const movieId = req.query.id;
-  console.log(movieId, 'movieId');
 
   try {
     const userData = await DataService.findOne(UserModel, {
@@ -73,7 +70,6 @@ export async function DeleteMovie(req, res) {
 export async function updateMovie(req, res) {
   const Id = req.headers.payload.userId;
   const movieId = req.query.id;
-  console.log(movieId, 'movieId');
 
   try {
     const userData = await DataService.findOne(UserModel, {
@@ -81,7 +77,6 @@ export async function updateMovie(req, res) {
     });
 
     const data = req.body;
-    console.log(userData.role, 'FOO');
     if (userData.role == 'Admin') {
       const userData = await DataService.updateData(movieModel, { _id: movieId }, data);
       output.makeSuccessResponse(res, 7, 200, userData);
@@ -97,17 +92,17 @@ export async function updateMovie(req, res) {
 // to search  movies
 export async function searchMovie(req, res) {
   const params = req.query.q;
-  console.log(params);
   try {
     const userData = await DataService.getData(movieModel, {
       $or: [{ genre: params }, { title: params }]
     });
-    console.log(userData, 'userData');
     if (userData.length > 0) {
+      output.makeSuccessResponse(res, -1, 200, userData);
+    }else{
       output.makeSuccessResponse(res, 9, 200, userData);
+      
     }
   } catch (error) {
-    console.log(error, 'error');
     return output.makeErrorResponse(res, 3, 500);
   }
 }

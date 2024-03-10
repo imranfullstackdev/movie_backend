@@ -7,7 +7,7 @@ import HTTPStatus from 'http-status';
 
 import UserRoutes from './user.routes.js';
 
-import APIError from '../services/error.js';
+// import APIError from '../services/error.js';
 
 // Middlewares
 import logErrorService from '../services/log.js';

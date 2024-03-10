@@ -16,7 +16,6 @@ routes.post('/login', Validation.login, UserController.login);
 routes.post('/movies', verifyRole, Validation.movieValidation, movieController.PostMovie);
 routes.get('/movies', movieController.allMovies);
 routes.delete('/movies', verifyRole, movieController.DeleteMovie);
-// pending
 routes.get('/search', movieController.searchMovie);
 routes.put('/movies', verifyRole, Validation.movieUpdateValidation, movieController.updateMovie);
 

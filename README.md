@@ -4,14 +4,9 @@
 
 # Get Started
 
-- [Installation](https://github.com/Zazz-IT/nodejs-boilerplate#installation)
-- [Scripts](https://github.com/Zazz-IT/nodejs-boilerplate#scripts)
-- [For validation on request](https://github.com/Zazz-IT/nodejs-boilerplate#for-validation-on-request)
-- [Techs](https://github.com/Zazz-IT/nodejs-boilerplate#techs)
 
 ## Installation
 
-1. Clone the project `git clone https://github.com/Zazz-IT/nodejs-boilerplate.git`.
 2. Install dependencies `npm i`
 3. Create a `.env` file.
 
@@ -72,11 +67,4 @@ routes.post(
 - [MongoDB](https://www.mongodb.com/)
 - [Mongoose](http://mongoosejs.com/)
 - [Basic Auth](https://www.npmjs.com/package/express-basic-auth)
-- [AES encryption]()
-- [Error handler]()
-- [Secret manager]()
-- [Twilio]()
-- [SendGrid]()
-- [Firebase-admin]()
-- [Redis]()
-- [Docker]()
+-

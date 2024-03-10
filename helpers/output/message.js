@@ -7,5 +7,7 @@ error[5] = 'Invalid Password.';
 error[6] = 'You are not autherized to create a movie.';
 error[7] = 'Movie Added Successfully';
 error[8]="Movie deleted Successfully"
+error[9] = 'No  Movie Found';
+
 
 export default error;
